@@ -145,7 +145,7 @@ function showWaitingPopup() {
     url,
     type: "popup",
     width: 400,
-    height: 150
+    height: 250
   }).then(windowInfo => windowInfo.id);
 }
 
