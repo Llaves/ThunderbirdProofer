@@ -1,11 +1,32 @@
 // background.js
 // Handles the functionality of the Proof button, now added via compose-action in the manifest.
 
-
 messenger.composeAction.onClicked.addListener(async (tab, info) => {
-  const composeDetails = await messenger.compose.getComposeDetails(tab.id);
+    const composeDetails = await messenger.compose.getComposeDetails(tab.id);
+  
+  // We'll use the entire email body by default
+  let textToProof = composeDetails.body;
+  let isFullMessage = true;
+  
+  // Try to get the selected text first, before showing any popups
+  try {
+    const results = await messenger.tabs.executeScript(tab.id, {
+      code: `
+        (function() {
+          const selection = window.getSelection().toString();
+          return selection.trim();
+        })();
+      `
+    });
+    
+    if (results && results[0] && results[0].length > 0) {
+      textToProof = results[0];
+      isFullMessage = false;
+    }
+  } catch (error) {
+    // Continue with full message if there's an error getting selection
+  }
 
-  const emailBody = composeDetails.body;
   const apiKey = (await browser.storage.local.get("apiKey")).apiKey;
 
   if (!apiKey) {
@@ -13,22 +34,19 @@ messenger.composeAction.onClicked.addListener(async (tab, info) => {
     openSettingsPopup();
     return;
   }
-    // Get saved prompts
+  // Get saved prompts
   const { savedPrompts = [], selectedPromptIndex = -1 } =
     await browser.storage.local.get(["savedPrompts", "selectedPromptIndex"]);
-	 
-	let selected_prompt = savedPrompts[selectedPromptIndex];
-	console.log(selected_prompt);
-
+   
+  let selected_prompt = savedPrompts[selectedPromptIndex];
+  
+  // Now show the waiting popup with the correct message based on what we're proofing
   let waitingPopupId = null;
   try {
     // Show waiting popup
-    waitingPopupId = await showWaitingPopup();
-	 // const selected_prompt = "You are a helpful assistant for proofreading emails. Please suggest changes to improve clarity, grammar, and tone. "
-              // +"Provide two set of changes, one for a formal email, one for an informal one";
-
-
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    waitingPopupId = await showWaitingPopup(isFullMessage);
+    
+        const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -41,18 +59,20 @@ messenger.composeAction.onClicked.addListener(async (tab, info) => {
             role: "system",
             content: selected_prompt
           },
-          { role: "user", content: emailBody }
+          { role: "user", content: textToProof }
         ],
       }),
     });
 
     if (!response.ok) {
       console.error("Failed to contact ChatGPT API.");
-		response.json().then (data=> {showErrorPopup(`Error ${response.status}: ${data.error.message}`);})
-		if (waitingPopupId) {
-			await browser.windows.remove(waitingPopupId);
-			waitingPopupID = null;
-		}
+      response.json().then(data => {
+        showErrorPopup(`Error ${response.status}: ${data.error.message}`);
+      })
+      if (waitingPopupId) {
+        await browser.windows.remove(waitingPopupId);
+        waitingPopupId = null;
+      }
       return;
     }
 
@@ -123,7 +143,9 @@ function showSuggestionsPopup(suggestions) {
   });
 }
 
-function showWaitingPopup() {
+function showWaitingPopup(isFullMessage) {
+  const proofingMessage = isFullMessage ? "Proofing message" : "Proofing selection";
+  
   const blob = new Blob([
     `<!DOCTYPE html>
     <html>
@@ -132,9 +154,11 @@ function showWaitingPopup() {
         <style>
           body { font-family: Arial, sans-serif; text-align: center; padding: 20px; }
           h1 { font-size: 18px; color: #555; }
+          p { font-size: 16px; color: #333; }
         </style>
       </head>
       <body>
+        <p>${proofingMessage}</p>
         <h1>Waiting for response from ChatGPT...</h1>
       </body>
     </html>`
