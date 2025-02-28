@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Thunderbird Proofreader",
-  "version": "1.0",
+  "version": "1.1",
   "description": "An extension to proofread emails using ChatGPT.",
   "background": {
     "scripts": ["background.js"]
@@ -31,11 +31,12 @@
       "id": "proofreader@thunderbird"
     }
   },
-"web_accessible_resources": [
-  "manage_prompts.html",
-  "manage_prompts.js",
-  "view_key.html",
-  "view_key.js"
+  "web_accessible_resources": [
+    "manage_prompts.html",
+    "manage_prompts.js",
+    "add_prompt.html",
+    "add_prompt.js",
+    "view_key.html",
+    "view_key.js"
   ]
 }
-
