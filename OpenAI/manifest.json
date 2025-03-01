@@ -1,0 +1,42 @@
+{
+  "manifest_version": 2,
+  "name": "OpenAI Proofreader",
+  "version": "1.1",
+  "description": "An extension to proofread emails using OpenAI gpt-4o-mini.",
+  "background": {
+    "scripts": ["background_openai.js"]
+  },
+  "permissions": ["storage", "compose", "messagesRead", "tabs"],
+  "browser_action": {
+    "default_title": "OpenAi",
+    "default_popup": "common/options.html",
+    "default_icon": {
+      "16": "common/icon16.png",
+      "32": "common/icon32.png"
+    }
+  },
+  "compose_action": {
+    "default_title": "OpenAI",
+    "default_icon": {
+      "16": "common/icon16.png",
+      "32": "common/icon32.png"
+    }
+  },
+  "options_ui": {
+    "page": "common/options.html",
+    "open_in_tab": false
+  },
+  "applications": {
+    "gecko": {
+      "id": "proofreader@thunderbird"
+    }
+  },
+  "web_accessible_resources": [
+    "common/manage_prompts.html",
+    "common/manage_prompts.js",
+    "common/add_prompt.html",
+    "common/add_prompt.js",
+    "common/view_key.html",
+    "common/view_key.js"
+  ]
+}

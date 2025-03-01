@@ -13,7 +13,7 @@ document.getElementById("saveButton").addEventListener("click", async () => {
 });
 
 document.getElementById("viewKeyButton").addEventListener("click", async () => {
-  const url = "./view_key.html";  
+  const url = "view_key.html";  
   browser.windows.create({
     url: url,
     type: "popup",

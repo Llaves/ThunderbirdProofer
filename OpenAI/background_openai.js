@@ -101,7 +101,7 @@ messenger.composeAction.onClicked.addListener(async (tab, info) => {
 
 function openSettingsPopup() {
   browser.windows.create({
-    url: "options.html",
+    url: "common/options.html",
     type: "popup",
     width: 500,
     height: 600
@@ -159,7 +159,7 @@ function showWaitingPopup(isFullMessage) {
       </head>
       <body>
         <p>${proofingMessage}</p>
-        <h1>Waiting for response from ChatGPT...</h1>
+        <h1>Waiting for response from OpenAI gpt-4o-mini...</h1>
       </body>
     </html>`
   ], { type: "text/html" });
@@ -204,6 +204,6 @@ function showErrorPopup(message) {
 // Added settings button functionality
 browser.runtime.onInstalled.addListener(() => {
   browser.browserAction.setPopup({
-    popup: "options.html"
+    popup: "common/options.html"
   });
 });
