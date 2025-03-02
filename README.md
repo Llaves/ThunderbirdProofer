@@ -32,4 +32,10 @@ If you have text selected in your message, that's all that will be proofed. Cont
 If you want to replace your original text with the suggested changes, copy the changes then select the original message and paste-without-formatting (ctrl-shift-V) and you should get what you want. 
 
 ## Rolling your own
-If you copy this repo or fork it to make your own mods, beware of two issues. The first is that the manifest files of both extensions assumes the common directory is a subdirectory of the directory containing the manifest (either OpenAI or Gemini). In my dev environment I have the common directory symlinked beneath each implementation. If you have this arrangement and zip the files into an .xpi, you'll do fine. But if you try to load the unzipped files via debug mode, you will fail because the symlink is not handled correctly by Thunderbird. If you want to load from the unzipped files, you will have to move or copy the common directory beneath appropriate implementation directory. Make sure you return it to it's rightful place before moving on lest you end up with divergent common files between the two implementations. 
+If you copy this repo or fork it to make your own mods, beware of two issues. The first is that the manifest files of both extensions assumes the common directory is a subdirectory of the directory containing the manifest (either OpenAI or Gemini). In my dev environment I have the common directory symlinked beneath each implementation. If you have this arrangement and zip the files into an .xpi, you'll do fine. But if you try to load the unzipped files via debug mode, you will fail because the symlink is not handled correctly by Thunderbird. If you want to load from the unzipped files, you will have to move or copy the common directory beneath appropriate implementation directory. Make sure you return it to it's rightful place before moving on lest you end up with divergent common files between the two implementations.
+ 
+
+## Signed Versions
+Free signed versions of the.xpi files are available in the Thunderbird Add-ons store. 
+The Gemini version is [here](https://addons.thunderbird.net/en-US/thunderbird/addon/gemini-proofreader/)
+The OpenAI version is [here](https://addons.thunderbird.net/en-US/thunderbird/addon/openai-proofreader/)
