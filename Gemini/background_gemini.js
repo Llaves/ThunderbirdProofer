@@ -70,7 +70,7 @@ function showWaitingPopup(isFullMessage) {
       </head>
       <body>
         <p>${proofingMessage}</p>
-        <h1>Waiting for response from Gemini Flash 2.0...</h1>
+        <h1>Waiting for response from Gemini Flash 2.5...</h1>
       </body>
     </html>`
   ], { type: "text/html" });
@@ -154,7 +154,7 @@ messenger.composeAction.onClicked.addListener(async (tab) => {
     waitingPopupId = await showWaitingPopup(isFullMessage);
 
     try {
-      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+      const geminiEndpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
       const prompt = `${selected_prompt}\n\n${textToProof}`;
       const payload = {
         contents: [{
