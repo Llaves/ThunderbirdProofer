@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "Gemini Proofreader",
-  "version": "1.1",
-  "description": "An extension to proofread emails using Google Gemini Flash 2.0.",
+  "version": "1.2",
+  "description": "An extension to proofread emails using Google Gemini Flash 2.5.",
   "background": {
     "scripts": ["background_gemini.js"]
   },
