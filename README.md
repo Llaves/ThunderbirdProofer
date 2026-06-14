@@ -1,5 +1,6 @@
 # DEPRECATED
 This version of the Thunderbird proofer has been supplanted by a new version that offers a broader choice of models and has better prompt support.
+The new model is [here](https://github.com/Llaves/TBirdProoferII).
 
 # LLM Proofreader for Thunderbird
 This Thunderbird extension uses an LLM (large language model, aka chatbot) to 
